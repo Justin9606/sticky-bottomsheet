@@ -1,13 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {
-  Platform,
-  StatusBar,
-  View,
-  ScrollView,
-  Dimensions,
-  Text,
-} from 'react-native';
+import {View, ScrollView, Dimensions, Text} from 'react-native';
 import {
   PanGestureHandler,
   GestureHandlerRootView,
@@ -23,31 +16,15 @@ import styled from 'styled-components/native';
 
 // Retrieve the full height of the device's screen
 const screenHeight = Dimensions.get('window').height;
-// Retrieve the height of the device's status bar
-const statusBarHeight = StatusBar.currentHeight || 0;
-// Determine if the iOS device has a notch (this affects the layout and height calculations)
-const hasNotch =
-  Platform.OS === 'ios' && (screenHeight >= 812 || screenHeight >= 896);
 
 // Calculate the header's height, considering the notch and the status bar
-const getHeaderHeight = (headerHeight: number): number => {
-  if (Platform.OS === 'ios') {
-    // Additional padding is added for iOS devices with a notch
-    return hasNotch ? headerHeight + 30 : headerHeight;
-  } else {
-    // For Android, subtract the status bar height from the header height and add a constant
-    return headerHeight - statusBarHeight + 35;
-  }
-};
 
 const App = () => {
   // A shared value for the Y-axis translation of the bottom sheet (controls the vertical position)
-  const translateY = useSharedValue(screenHeight - 150); // The bottom sheet's initial position
+  const translateY = useSharedValue(screenHeight - 200); // The bottom sheet's initial position
 
-  // Static value for the header height, you might want to make this dynamic depending on your app
-  const headerHeight = 50;
-  // Calculate the maximum expanded height for the bottom sheet (full screen height minus the header height)
-  const expandedHeight = getHeaderHeight(headerHeight);
+  // Use a static number for the expanded height (100 pixels from the top)
+  const staticExpandedHeight = 100; // This is your  static number for expanded height
 
   // Gesture handler for the bottom sheet's pan (drag) gesture
   const gestureHandler = useAnimatedGestureHandler({
@@ -58,9 +35,9 @@ const App = () => {
     onActive: (event, ctx) => {
       // Calculate the new position of the bottom sheet as the user drags it
       const newPosition = ctx.startY + event.translationY;
-      // Ensure the new position is within the allowed range (expandedHeight to screenHeight - 150)
+      // Ensure the new position is within the allowed range (staticExpandedHeight to screenHeight - 150)
       translateY.value =
-        newPosition >= expandedHeight && newPosition <= screenHeight - 150
+        newPosition >= staticExpandedHeight && newPosition <= screenHeight - 150
           ? newPosition
           : translateY.value;
     },
@@ -74,7 +51,7 @@ const App = () => {
         });
       } else {
         // If the bottom sheet is released in the upper half of the screen, expand it
-        translateY.value = withTiming(expandedHeight, {
+        translateY.value = withTiming(staticExpandedHeight, {
           duration: 300,
           easing: Easing.inOut(Easing.ease),
         });
@@ -91,20 +68,12 @@ const App = () => {
   });
 
   return (
-    // Root view for handling gestures; necessary for `react-native-gesture-handler`
     <GestureHandlerRootView style={{flex: 1}}>
-      <View style={{flex: 1, backgroundColor: '#eaebed'}}>
-        {/* PanGestureHandler to capture drag (pan) gestures */}
+      <View style={{flex: 1, backgroundColor: '#f0f0f0'}}>
         <PanGestureHandler onGestureEvent={gestureHandler}>
-          {/* Animated view for the bottom sheet that will move up and down */}
           <BottomSheetWrapper style={animatedStyle}>
-            {/* Draggable indicator area */}
             <DragHandler />
-            {/* Scrollable content area */}
-            <ScrollView
-              scrollEventThrottle={16} // Set the rate of firing scroll events
-              style={{maxHeight: '100%'}}>
-              {/* Content within the bottom sheet */}
+            <ScrollView scrollEventThrottle={16} style={{maxHeight: '100%'}}>
               <View style={{padding: 20, alignItems: 'center'}}>
                 <Text>Sticky Bottom Sheet Content</Text>
               </View>
@@ -130,7 +99,7 @@ const BottomSheetWrapper = styled(Animated.View)`
 const DragHandler = styled.View`
   width: 40px;
   height: 5px;
-  background-color: #eaebed;
+  background-color: gray;
   border-radius: 2.5px;
   margin: 12px auto;
 `;
