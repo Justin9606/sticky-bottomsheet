@@ -23,11 +23,17 @@ To run the app on a device or an emulator, use the following command
 
 For Android:
 
+```bash
 yarn android
 
+```
 For iOS:
 
+```bash
 yarn ios
 
+```
+
 Customization
-You can customize the bottom sheet's appearance by editing the BottomSheetWrapper and DragHandler styled components. Feel free to adjust the colors, borders, and sizes as per your UI/UX design requirements.
+
+You can customize the bottom sheet's appearance by editing the BottomSheetWrapper and DragHandler-styled components. Feel free to adjust the colors, borders, and sizes as per your UI/UX design requirements.
