@@ -86,8 +86,8 @@ const App = () => {
 };
 
 const BottomSheetWrapper = styled(Animated.View)`
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
   position: absolute;
   bottom: 0;
   left: 0;
