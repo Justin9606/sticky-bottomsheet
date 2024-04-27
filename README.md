@@ -1,5 +1,12 @@
 # React Native Sticky Bottom Sheet
 
+
+
+https://github.com/Justin9606/sticky-bottomsheet/assets/54047658/c1963993-de45-4cea-be83-f636f916ed69
+
+
+
+
 This project implements a customizable sticky bottom sheet in React Native using `react-native-reanimated` and `react-native-gesture-handler`. The bottom sheet can be dragged up to expand to the full height of the screen or dragged down to collapse.
 
 ## Features
